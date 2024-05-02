@@ -1,11 +1,19 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
-const Dish = new mongoose.Schema({
-    name: { type: String, trim: true, default: '' }, 
-    price: { type: Number, trim: true, default: '' }, 
-    ingredients: [{ type: String, trim: true, default: '' }],
-    tags:[{ type: String, trim: true, default: '' }],
-    restaurants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }]
+export interface Dish extends Document {
+    name: string;
+    price: number;
+    ingredients: string[];
+    tags: string[];
+    restaurants: Types.ObjectId[];
+}
+
+const dishSchema: Schema<Dish> = new Schema<Dish>({
+    name: { type: String, trim: true, required: true },
+    price: { type: Number, required: true },
+    ingredients: [{ type: String, trim: true }],
+    tags: [{ type: String, trim: true }],
+    restaurants: [{ type: Schema.Types.ObjectId, ref: 'Restaurant' }]
 });
 
-export default mongoose.model('Dish', Dish);
+export default mongoose.model<Dish>('Dish', dishSchema);

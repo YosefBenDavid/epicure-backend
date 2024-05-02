@@ -1,10 +1,20 @@
-import mongoose from 'mongoose';
+import { Document, Schema, model, Types } from "mongoose";
 
-const Chef = new mongoose.Schema({
-    name: { type: String, trim: true, default: '' }, 
-    image: { type: String, trim: true, default: '' }, 
-    description: { type: String, trim: true, default: '' },
-    restaurants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }]
+// Define a type for the Chef entity
+interface Chef extends Document {
+  name: string;
+  image: string;
+  description: string;
+  restaurants?: Types.ObjectId[]; // Optional field for restaurants
+}
+
+// Define the schema for the Chef entity
+const chefSchema: Schema<Chef> = new Schema<Chef>({
+  name: { type: String, trim: true, default: "" },
+  image: { type: String, trim: true, default: "" },
+  description: { type: String, trim: true, default: "" },
+  restaurants: [{ type: Schema.Types.ObjectId, ref: "Restaurant" }],
 });
 
-export default mongoose.model('Chef', Chef);
+// Export the Chef model
+export default model<Chef>("Chef", chefSchema);

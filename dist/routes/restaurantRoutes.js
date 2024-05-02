@@ -22,12 +22,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importStar(require("mongoose"));
-const restaurantSchema = new mongoose_1.Schema({
-    name: { type: String, trim: true, required: true },
-    image: { type: String, trim: true },
-    chef: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Chef', required: true },
-    dishes: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Dish' }]
-});
-exports.default = mongoose_1.default.model('Restaurant', restaurantSchema);
+const express_1 = __importDefault(require("express"));
+const restaurantController = __importStar(require("../controllers/restaurantController"));
+const router = express_1.default.Router();
+// Define routes for restaurant management
+router.get('/', restaurantController.getAllRestaurants);
+router.get('/:id', restaurantController.getRestaurantById);
+router.post('/', restaurantController.createRestaurant);
+router.put('/:id', restaurantController.updateRestaurantById);
+router.delete('/:id', restaurantController.deleteRestaurantById);
+exports.default = router;
